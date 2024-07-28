@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home_Page</title>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="./node_modules/axios/dist/axios.min.js"></script>
+
+<style>
+    body{
+        background: #f0ecff;
+    }
+    #add-btn {
+      position: fixed;
+      bottom: 5%;
+  right: 8%;
+  width: 70px;
+  height: 70px; 
+  text-align: center;
+  color: white;
+  border-radius: 50%;
+  font-size: 40px;
+   cursor: pointer;
+box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.3);
+}
+.number span{
+    font-size: 50px;
+    color: black
+}
+.user{
+    font-weight: 500;
+    font-size: 20px;
+}
+</style>
+</head>
+<body>
+
+<div id="loader" style="border-radius: 30px; width: 80px;height: 80px; background: rgba(237, 239, 237, 0.447); position: fixed; left: 0px; right: 0px; bottom: 0px; top: 0px; margin: auto auto; display: flex; justify-content: center; align-items: center; z-index: 9999;" >
+  <div class="lds-spinner" ><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+
+</div>
+  
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header d-flex justify-content-center align-items-center" >
+              <h1 class="modal-title fs-3 color-blue"  id="exampleModalLabel" >Login</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form>
+               
+                <div class="mb-3">
+                  <label for="recipient-name" class="col-form-label"></label>
+                  <input type="text" class="form-control" id="username" value="mohammeddd" placeholder="Username">
+                </div>
+                <div class="mb-3">
+                  <label for="message-text" class="col-form-label"></label>
+                  <input type="password" class="form-control" id="password" value="123456" placeholder="password">
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary"  onclick="loginbtn()">Login</button>
+            </div>
+          </div>
+        </div>
+      </div> 
+    
+      <div class="modal fade" id="regesterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header d-flex justify-content-center align-items-center" >
+              <h1 class="modal-title fs-3 color-blue"  id="exampleModalLabel">Register Anew User</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form>
+     
+                <div class="mb-3">
+                  <label for="recipient-name"  class="col-form-label">image</label>
+                  <input type="file" class="form-control" id="regester-img-input" value="" placeholder="">
+                </div>
+    
+                <div class="mb-3">
+                  <label for="recipient-name" class="col-form-label">name</label>
+                  <input type="text" class="form-control" id="regester-name-input" value="aliali100" placeholder="Name">
+                </div>
+                <div class="mb-3">
+                  <label for="recipient-name" class="col-form-label">username</label>
+                  <input type="text" class="form-control" id="regester-username-input" value="mohammeddd1" placeholder="Username">
+                </div>
+                <div class="mb-3">
+                  <label for="message-text" class="col-form-label">password</label>
+                  <input type="password" class="form-control" id="regester-password-input" value="123456" placeholder="password">
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary"  onclick="regesterbtn()">Regster</button>
+            </div>
+          </div>
+        </div>
+      </div> 
+    
+      
+      <div class="modal fade" id="create-post-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header d-flex justify-content-center align-items-center" >
+              <h1 class="modal-title fs-3 color-blue"  id="post-title">Create A new Post</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="mb-3">
+                  <label for="recipient-name" class="col-form-label">Title</label>
+                  <input type="text" class="form-control" id="creatpost" value="" placeholder="">
+                  <input type="hidden" id="input-id" value="">
+                </div>
+    
+                <div class="mb-3">
+                  <textarea name="" id="creatbody" style="width: 100%; height: 100px; border-color: gray; border-radius: 10px; resize: none;"></textarea>
+                </div>
+                <div class="mb-3">
+                  <label for="recipient-name" class="col-form-label">Image</label>
+                  <input type="file" class="form-control" id="createimage" value="" placeholder="">
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="changeup" onclick="Createbtn()">Create</button>
+            </div>
+          </div>
+        </div>
+       </div> 
+    
+    <!-- //////////delete -->
+       <div class="modal fade" id="delete-post-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header d-flex justify-content-center align-items-center" >
+              <h1 class="modal-title fs-3 color-blue"  id="post-title">هل انت متأكد من حذف هذا المنشور ؟
+                </h1>
+    
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <input type="hidden" id="input-iidd" value="">
+            </div>
+          
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-danger" id="changeup" onclick="confirmDelete()">Delete</button>
+            </div>
+          </div>
+        </div>
+       </div> 
+    <!-- <//////////////END_MODEL/////////////> -->
+    
+   
+
+    
+  <div id="success-alert" class="show fade"  style="position: fixed;font-size: 20px; width:30%; z-index:999999; bottom: 0; right:0"></div>
+
+  <div class="container ">
+      <div class="d-flex justify-content-center ">
+<div class="col-9 ">
+      <nav class="navbar navbar-expand-lg pt-2  rounded shadow bg-dark " >
+          <div class="container-fluid fs-5 ";>
+            <a class="navbar-brand" style="color: rgb(225, 214, 11)" href="index.html">Whisper</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse"   id="navbarNav">
+              <ul class="navbar-nav "  >
+                <li class="nav-item ">
+                  <a class="nav-link active" style="color: white" aria-current="page" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" style="color: white; cursor: pointer;"  onclick="mypro()">Profile</a>
+                </li>
+              </ul>
+           <div class="d-flex  w-100 justify-content-end " id="login-div">
+              <button type="button" id="loginone" data-bs-toggle="modal"  data-bs-target="#loginModal" class="btn btn-outline-success mx-3 fs-5" >Login </button>
+              <button type="button" id="regester" data-bs-toggle="modal" data-bs-target="#regesterModal" id="regester" class="btn btn-outline-success gap-5 fs-5">Register</button>
+              
+           </div>
+           <div class="d-flex  w-100 justify-content-end align-items-center" id="logout-div">
+            <img id="nav-img" class="rounded-circle" src="./img_profile/تنزيل.jpeg" style="width: 40px; height: 40px; background-color: white;" alt="" />
+<b  id="nav-username" style="color: white;">Alhattami</b>              
+<button type="button"  id="logout"  data-bs-toggle="modal"  data-bs-target="" class="btn btn-outline-danger mx-3 fs-5" onclick="outbtn()" >Logout</button>
+
+         </div>
+         
+
+            </div>
+          </div>
+        </nav>
+      </div>
+  </div>
+  </div>
+
+  <!-- ///////post -->
+
+    <div class="container" style="height:1000px;">
+
+    <div class="d-flex justify-content-center mt-2">
+      <div class="col-9">
+      
+    <div class="card shadow my-4">
+      
+        <div class="card-body">
+
+            <div class="row">
+                <div id="profile-img" class="col-3">
+                    <img id="hesder-img" src="./default_image.jpg" alt="" style="width: 200px; height: 200px; border-radius: 50%;">
+                </div>
+
+                <div id="info" class="col-4 d-flex flex-column justify-content-evenly fs-4 " style="font-weight: bold">
+
+                <div id="info-email" class="user">
+                  alaa@gmail.com
+                </div>
+
+                <div id="info-name" class="user">
+                    alaa ahmed alhattami
+                </div> 
+                
+                <div id="info-username" class="user">
+                    Al-hattami
+                </div>
+                </div>
+
+
+
+                <div class="col-5 d-flex flex-column justify-content-evenly fs-4 ">
+
+                    <div class="number" style="color:rgb(170,170, 170); font-weight:100 ;">
+                        <span id="post" style="">
+                            10
+                        </span> Posts
+                    </div>
+                    <div class="number" style="color:rgb(170,170, 170); font-weight:100 ;">
+                        <span id="comment" style="">
+                            20
+                        </span> Commenets
+                    </div>
+                </div>
+            </div>  
+    </div>
+      </div>
+
+      <div class="row mt-5">
+        <h1> <span id="username-in">alaa</span> Posts</h1>
+      </div>
+
+<div class="row" id="mypost">
+      <div class="card shadow my-4">
+        <div class="card-header ">
+         <img id="profile-img" class="rounded-circle border border-2" src="./img_profile/images.png" style="height: 40px; width: 40px;"  alt="">
+        <b id="nav-usernamee">@Al-Hattami</b>
+        </div>
+        <div class="card-body">
+        <img src="./img_posts/20230927045127-48abca2c-xs.jpg" style="width: 100%; height: 400px;" alt="">
+        <span style="font-size: 17px; color: rgb(157, 155, 155);" >2 min ago</span>   
+        <h5>hi alaa alhattami</h5>
+        <p style="font-size: 18px;">Lorem, ipsumhsaxjiwqiq  ooAZn dolor sit amet consectetur adipmenda.</p>
+        <hr>
+        <div class="comment" style="display:flex">  
+        <box-icon name='message-rounded-dots'>
+        </box-icon>
+        <span class="mx-1">
+          (5) Comments
+                </span>
+              </div>
+              </div>
+            </div>
+ </div>
+      </div>
+    </div>
+    </div>
+
+  
+  
+</body>
+<script src="./mainlogic.js"></script>
+<script src="./profile.js"></script>
+</body>
+</html>
